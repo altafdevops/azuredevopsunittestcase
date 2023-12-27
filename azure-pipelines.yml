@@ -26,8 +26,20 @@ steps:
      command: 'build'
      projects: 'dotnetappswithunitestcase/*.csproj'
      arguments: '$(buildconfigurationa)'
-
-
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'dotnetunittestcase/.*csproj'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'dotnetappsunittestcase'
+    publishLocation: 'Container'
     
     
 
