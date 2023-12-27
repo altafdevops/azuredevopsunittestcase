@@ -23,10 +23,10 @@ steps:
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
-   inputs:
-     command: 'build'
-     projects: 'dotnetappswithunitestcase/*.csproj'
-     arguments: '$(buildconfigurationa)'
+  inputs:
+    command: 'build'
+    projects: 'dotnetappswithunitestcase/*.csproj'
+    arguments: '$(buildconfigurationa)'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
