@@ -21,7 +21,8 @@ steps:
     command: 'restore'
     projects: 'dotnetappswithunitestcase/*.csproj'
     feedsToUse: 'select'
- - task: DotNetCoreCLI@2
+
+- task: DotNetCoreCLI@2
    inputs:
      command: 'build'
      projects: 'dotnetappswithunitestcase/*.csproj'
