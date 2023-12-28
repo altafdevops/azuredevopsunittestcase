@@ -16,28 +16,55 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'   
+
+# - task: SonarQubePrepare@5
+#  inputs:
+#     SonarQube: 'sonarqubesvcconn'
+#     scannerMode: 'MSBuild'
+#     projectKey: 'dotnetcoredocker_dotnetcoredocker_AYvTLTe9ZRXHkaAxlSv7'
+#     projectName: 'dotnetcoredocker'
+     
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
     projects: 'dotnetappswithunitestcase/*.csproj'
-    feedsToUse: 'select'
-
+  displayName: 'Restore of dotnet  '  
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
     projects: 'dotnetappswithunitestcase/*.csproj'
-    arguments: '$(buildconfigurationa)'
+  displayName: 'dotnet build $(buildConfiguration)'   
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: 'dotnetunittestcase/.*csproj'
+    
+    projects: 'dotnetunittestcase/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    testRunTitle: 'dotnetunittestreport'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
+    zipAfterPublish: True
+- task: PublishPipelineArtifact@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'dotnetappsunittestcase'
-    publishLocation: 'Container'
+   targetPath:  $(Build.ArtifactStagingDirectory)
+   artifactName: 'dotnetappsunittestcase'
+
+
+
+   
+    
+    
+
+     
+  
+   
+    
