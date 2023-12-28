@@ -41,10 +41,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'dotnetappsunittestcase'
     publishLocation: 'Container'
-    
-    
-
-     
-  
-   
-    
